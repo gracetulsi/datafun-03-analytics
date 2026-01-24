@@ -31,7 +31,7 @@ OBS:
   Find the TODO comments, and as you complete each task, remove the TODO note.
 """
 
-
+# setup verified
 # === DECLARE IMPORTS (BRING IN FREE CODE) ===
 
 # Imports from the Python standard library (free stuff that comes with Python).
