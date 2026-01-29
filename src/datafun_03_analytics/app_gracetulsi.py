@@ -1,6 +1,5 @@
-"""app_yourname.py - Project script.
+"""app_gracetulsi.py - Project script.
 
-TODO: Replace "yourname" in the filename with your actual name or alias.
 
 TODO: Read the examples carefully. Choose your data source of one of the provided types.
 TODO: Create and implement a new Python file (module) in this folder following the associated example.
