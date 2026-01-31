@@ -7,6 +7,7 @@ Computes total verified loss by state.
 
 from pathlib import Path
 from typing import Any
+
 import openpyxl
 
 
@@ -22,7 +23,9 @@ def _to_float(value: Any) -> float:
         return 0.0
 
 
-def extract_state_verified_loss_rows(*, file_path: Path, sheet_name: str) -> list[tuple[str, float]]:
+def extract_state_verified_loss_rows(
+    *, file_path: Path, sheet_name: str
+) -> list[tuple[str, float]]:
     """E: Extract (state_code, total_verified_loss) rows from an Excel sheet.
 
     Uses:
@@ -64,6 +67,7 @@ def extract_state_verified_loss_rows(*, file_path: Path, sheet_name: str) -> lis
 
     return rows
 
+
 def transform_total_verified_loss_by_state(
     *, rows: list[tuple[str, float]]
 ) -> dict[str, float]:
@@ -75,6 +79,7 @@ def transform_total_verified_loss_by_state(
         totals[state] = totals.get(state, 0.0) + loss
 
     return totals
+
 
 def verify_state_totals(*, totals: dict[str, float]) -> None:
     """V: Verify state total verified loss values are valid."""
@@ -110,6 +115,7 @@ def load_state_totals_report(
 
         for i, (state, total) in enumerate(ranked[:top_n], start=1):
             f.write(f"{i:>4} | {state:<5} | {total:>18,.2f}\n")
+
 
 def run_pipeline(*, raw_dir: Path, processed_dir: Path, logger: Any) -> None:
     """Run the full ETVL pipeline for SBA FY22 Home total verified loss by state."""

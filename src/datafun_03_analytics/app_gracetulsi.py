@@ -42,7 +42,6 @@ from datafun_toolkit.logger import get_logger, log_header
 # REQ: imports from other modules in this project must use full package path
 from datafun_03_analytics.gracetulsi_xlsx_pipeline import run_pipeline
 
-
 # === CONFIGURE LOGGER ONCE PER MODULE ===
 
 LOG: logging.Logger = get_logger("P03", level="DEBUG")
