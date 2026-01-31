@@ -1,16 +1,7 @@
 """app_gracetulsi.py - Project script.
 
 
-TODO: Your module should have:
-- an appropriate name like yourname_type_pipeline.py (e.g., smith_csv_pipeline.py)
-- start with a docstring similar to the examples
-- add imports at the top.
-- define an extract function (E that reads data from data/raw into memory)
-- define a transform function (T that processes the extracted data)
-- define a load function (L that writes output to data/processed)
-- define a run_pipeline() function that calls E, T, L, and adds a new output file to data/processed/.
-
-Author: Your Name or Alias
+Author: Grace Tulsi
 Date: 2026-01
 
 Practice key Python skills:
@@ -24,7 +15,6 @@ Practice key Python skills:
 
 OBS:
   This is your file to practice and customize.
-  Find the TODO comments, and as you complete each task, remove the TODO note.
 """
 
 # setup verified
@@ -61,7 +51,6 @@ def main() -> None:
     log_header(LOG, "Pipelines: Read, Process, Verify, Write (ETVL)")
     LOG.info("START main()")
 
-    # TODO: call your imported data pipeline that reads from data/raw and writes to data/processed.
     run_pipeline(raw_dir=RAW_DIR, processed_dir=PROCESSED_DIR, logger=LOG)
 
     LOG.info("END main()")
