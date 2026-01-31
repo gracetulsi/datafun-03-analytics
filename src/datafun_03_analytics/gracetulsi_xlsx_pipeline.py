@@ -111,26 +111,24 @@ def load_state_totals_report(
         for i, (state, total) in enumerate(ranked[:top_n], start=1):
             f.write(f"{i:>4} | {state:<5} | {total:>18,.2f}\n")
 
+def run_pipeline(*, raw_dir: Path, processed_dir: Path, logger: Any) -> None:
+    """Run the full ETVL pipeline for SBA FY22 Home total verified loss by state."""
+    logger.info("SBA XLSX: START")
 
-
-
-if __name__ == "__main__":
-    test_file = Path("data/raw/sba_disaster_loan_data_fy22.xlsx")
     sheet = "FY22 Home"
-    out_file = Path("data/processed/gracetulsi_verified_loss_by_state.txt")
+    input_file = raw_dir / "sba_disaster_loan_data_fy22.xlsx"
+    output_file = processed_dir / "gracetulsi_verified_loss_by_state.txt"
 
-    rows = extract_state_verified_loss_rows(file_path=test_file, sheet_name=sheet)
+    rows = extract_state_verified_loss_rows(file_path=input_file, sheet_name=sheet)
     totals = transform_total_verified_loss_by_state(rows=rows)
     verify_state_totals(totals=totals)
 
     load_state_totals_report(
         totals=totals,
-        out_path=out_file,
+        out_path=output_file,
         sheet_name=sheet,
         top_n=10,
     )
 
-    print(f"Wrote report: {out_file}")
-
-
-
+    logger.info("SBA XLSX: wrote %s", output_file)
+    logger.info("SBA XLSX: END")
