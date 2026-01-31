@@ -64,11 +64,31 @@ def extract_state_verified_loss_rows(*, file_path: Path, sheet_name: str) -> lis
 
     return rows
 
+def transform_total_verified_loss_by_state(
+    *, rows: list[tuple[str, float]]
+) -> dict[str, float]:
+    """T: Sum total verified loss by state code."""
+    totals: dict[str, float] = {}
+
+    for state, loss in rows:
+        # Add this row's loss into that state's running total
+        totals[state] = totals.get(state, 0.0) + loss
+
+    return totals
+
 
 
 
 if __name__ == "__main__":
     test_file = Path("data/raw/sba_disaster_loan_data_fy22.xlsx")
-    data = extract_state_verified_loss_rows(file_path=test_file, sheet_name="FY22 Home")
-    print(f"Extracted rows: {len(data)}")
-    print("First 5:", data[:5])
+    rows = extract_state_verified_loss_rows(
+        file_path=test_file,
+        sheet_name="FY22 Home"
+    )
+
+    totals = transform_total_verified_loss_by_state(rows=rows)
+
+    print(f"States counted: {len(totals)}")
+    for state in sorted(totals)[:10]:
+        print(state, totals[state])
+
