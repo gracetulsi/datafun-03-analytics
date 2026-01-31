@@ -86,21 +86,51 @@ def verify_state_totals(*, totals: dict[str, float]) -> None:
             raise ValueError(f"Negative total loss for state {state}: {total}")
 
 
+def load_state_totals_report(
+    *,
+    totals: dict[str, float],
+    out_path: Path,
+    sheet_name: str,
+    top_n: int = 10,
+) -> None:
+    """L: Write a text report summarizing total verified loss by state."""
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    ranked = sorted(totals.items(), key=lambda item: item[1], reverse=True)
+
+    with out_path.open("w", encoding="utf-8") as f:
+        f.write("SBA FY22 Home - Total Verified Loss by State\n")
+        f.write("=" * 48 + "\n")
+        f.write(f"Sheet: {sheet_name}\n")
+        f.write(f"States counted: {len(totals)}\n")
+        f.write(f"Top N: {top_n}\n\n")
+
+        f.write("Rank | State | Total Verified Loss\n")
+        f.write("-" * 40 + "\n")
+
+        for i, (state, total) in enumerate(ranked[:top_n], start=1):
+            f.write(f"{i:>4} | {state:<5} | {total:>18,.2f}\n")
+
 
 
 
 if __name__ == "__main__":
     test_file = Path("data/raw/sba_disaster_loan_data_fy22.xlsx")
-    rows = extract_state_verified_loss_rows(
-        file_path=test_file,
-        sheet_name="FY22 Home"
-    )
+    sheet = "FY22 Home"
+    out_file = Path("data/processed/gracetulsi_verified_loss_by_state.txt")
 
+    rows = extract_state_verified_loss_rows(file_path=test_file, sheet_name=sheet)
     totals = transform_total_verified_loss_by_state(rows=rows)
     verify_state_totals(totals=totals)
 
-    print(f"States counted: {len(totals)}")
-    for state in sorted(totals)[:10]:
-        print(state, totals[state])
+    load_state_totals_report(
+        totals=totals,
+        out_path=out_file,
+        sheet_name=sheet,
+        top_n=10,
+    )
+
+    print(f"Wrote report: {out_file}")
+
 
 
