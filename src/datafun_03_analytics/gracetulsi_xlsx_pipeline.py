@@ -76,6 +76,16 @@ def transform_total_verified_loss_by_state(
 
     return totals
 
+def verify_state_totals(*, totals: dict[str, float]) -> None:
+    """V: Verify state total verified loss values are valid."""
+    if not totals:
+        raise ValueError("No state totals were computed.")
+
+    for state, total in totals.items():
+        if total < 0:
+            raise ValueError(f"Negative total loss for state {state}: {total}")
+
+
 
 
 
@@ -87,8 +97,10 @@ if __name__ == "__main__":
     )
 
     totals = transform_total_verified_loss_by_state(rows=rows)
+    verify_state_totals(totals=totals)
 
     print(f"States counted: {len(totals)}")
     for state in sorted(totals)[:10]:
         print(state, totals[state])
+
 
